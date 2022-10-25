@@ -45,7 +45,7 @@ chmod +x h2jupynb
 To start Jupyter, you will run
 
 ```{.bash}
-python3 ./h2jupynb -u joebruin -t 5 -m 10 -e 2 -s 36 -a intel-gold\\* -x yes -d /SCRATCH/PATH/WS_BigDataOnHPC
+python3 ./h2jupynb -u joebruin -t 5 -m 10 -e 2 -s 1 -a intel-gold\\* -x yes -d /SCRATCH/PATH/WS_BigDataOnHPC
 ```
 
 Replace `joebruin` with your Hoffman2 user account.
