@@ -1,5 +1,5 @@
 ---
-title: "Big Data for HPC"
+title: "Big Data on HPC"
 author: "Charles Peterson"
 data: "Oct 26, 2022"
 format: 
@@ -66,7 +66,7 @@ This presentation can be found on our UCLA OARC's github repo
 View slides:
 
 -   PDF format: 
-    - BigDataOnHPC.pdf
+    - BigDataHPC.pdf
   
 -   html format: 
     - <https://ucla-oarc-hpc.github.io/WS_BigDataOnHPC>
@@ -75,7 +75,7 @@ View slides:
 This presentation was build with [Quarto](https://quarto.org/) and
 RStudio.
 
--   Quarto file: `BigDataOnHPC.qmd`
+-   Quarto file: `BigDataHPC.qmd`
 :::
 
 ::: 
@@ -553,7 +553,7 @@ Though we will not use the Spark from conda, we will still use the PySpark packa
 Since we are using our Spark build that we just downloaded, we will start spark and submit it as a job, then connect to jupyter.
 
 - Example: `spark-ex2`
-    - Job script `spark-multi-jupyter.job`  
+    - Job script `pyspark-multi-jupyter.job`  
     - Starts Spark and a Jupyter session for us to connect.
     - We start this with the line `$SPARK_HOME/bin/pyspark`
 
@@ -578,7 +578,7 @@ Large data jobs may require the Spark driver to have a heavy CPU load and memory
 - Submitting the Job
 
 ```{.bash}
-qsub spark-multi-jupyter.job
+qsub pyspark-multi-jupyter.job
 ```
 
 - Once the job starts, we will connect to this Jupyter session
@@ -594,6 +594,7 @@ ssh -L 8888:NODENAME:8888 joebruin@hoffman2.idre.ucla.edu
 - This will create a SSH tunnel to the compute node so we can open Jupyter at `http://localhost:8888`
 
 - Then we can open the notebook named `spark-ML.ipynb`
+
 
 :::
 

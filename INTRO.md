@@ -56,28 +56,6 @@ More information on running Jupyter can be found on the Hoffman2 webpage.
 
 <https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab>
 
-## Clone this GitHub Repo
-
-You will need to clone this repo to run these examples.
-
-I would recommend to clone this in your `$SCRATCH` directory on Hoffman2.
-
-First, login to Hoffman2
-
-```{.bash}
-ssh joebruin hoffman2.idre.ucla.edu 
-```
-
-Clone the repo
-
-```{.bash}
-cd $SCRATCH
-git clone https://github.com/ucla-oarc-hpc/WS_BigDataOnHPC
-```
-
-You will have this repo located at `$SCRATCH/WS_BigDataOnHPC`
-
-
 ## Install PySpark
 
 We will use Spark and the python API, PySpark, in this workshop and install it with Anaconda on Hoffman2. 
@@ -154,11 +132,10 @@ cd spark-ex2
 cp $SCRATCH/WS_BigDataOnHPC/dask-ex2/YearPredictionMSD.txt
 ```
 
-
 Dataset from LIBSVM. <https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/>
 
 ```{.bash}
 cd $SCRATCH/WS_BigDataOnHPC
-cd spark-ex2
+cd spark-bonus
 wget https://raw.githubusercontent.com/apache/spark/master/data/mllib/sample_libsvm_data.txt
 ``` 
