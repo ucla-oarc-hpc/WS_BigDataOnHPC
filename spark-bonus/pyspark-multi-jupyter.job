@@ -1,0 +1,49 @@
+#!/bin/bash
+#$ -cwd
+#$ -o spark-test.$JOB_ID
+#$ -j y
+#$ -l exclusive
+#$ -w e
+#$ -l h_rt=1:00:00,h_data=20G
+#$ -pe node 3
+#$ -l arch=intel-gold*
+
+# load the anaconda module
+. /u/local/Modules/default/init/modules.sh
+module load anaconda3/2020.11
+# Activate the 'myconda' conda env
+conda activate mypyspark
+
+## Print Spark Location
+export SPARK_HOME=$SCRATCH/WS_BigDataOnHPC/apps/spark/spark-3.3.0-bin-hadoop3
+echo "SPARK HOME is located at: $SPARK_HOME"
+
+## Print the Spark Master compute node
+export SPARK_MASTER_HOST=`hostname`
+echo "Spark Master Host is: $SPARK_MASTER_HOST"
+
+## Set up Spark Worker Nodes
+export SPARK_LOG_DIR=$SGE_O_WORKDIR/conf
+export SPARK_CONF_DIR=$SGE_O_WORKDIR/conf
+mkdir -pv $SPARK_LOG_DIR
+cat $PE_HOSTFILE | awk '{print $1}' > $SPARK_LOG_DIR/workers
+sed -i "/${SPARK_MASTER_HOST}/d" $SPARK_LOG_DIR/workers
+echo "Spark Workers are: $(cat $SPARK_LOG_DIR/workers)"
+
+
+echo "Staring master"
+$SPARK_HOME/sbin/start-master.sh
+
+echo "Starting workers"
+$SPARK_HOME/sbin/start-workers.sh
+
+## Set up pyspark options
+export PYTHONPATH="${SPARK_HOME}/python/:$PYTHONPATH"
+export PYTHONPATH="${SPARK_HOME}/python/lib/py4j-0.10.9.5-src.zip:$PYTHONPATH"
+
+export PYSPARK_DRIVER_PYTHON='jupyter'
+export PYSPARK_DRIVER_PYTHON_OPTS='lab --ip 0.0.0.0 --no-browser --port=8888'
+
+## Start Spark
+## Connect to Spark's default master driver, port 7077
+$SPARK_HOME/bin/pyspark --executor-memory 15G --driver-memory 20G --master spark://${SPARK_MASTER_HOST}:7077  
