@@ -1,0 +1,907 @@
+---
+title: "Big Data for HPC"
+author: "Charles Peterson"
+data: "Oct 26, 2022"
+format: 
+  revealjs: 
+    transition: slide
+    theme: simple
+    scrollable: true
+    self-contained: true
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+## Overview
+
+In this workshop, we will using Big Data techniques with High-Performance Computing Resources
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+::: {style="font-size: 0.90em" .fragment}
+
+</br>
+
+We will go over:
+
+- General concepts of Big Data
+
+- Simple examples on Hoffman2
+
+:::
+
+:::
+
+::: {.column width="40%"}
+
+::: {style="font-size: 0.70em" .fragment}
+
+::: {style="text-align: center"}
+
+<img src="fullpic.png"/ width="35%">
+
+Any suggestions for upcoming workshops, email me at
+[cpeterson\@oarc.ucla.edu](mailto:cpeterson@oarc.ucla.edu){.email}
+
+:::
+
+:::
+
+:::
+
+::::
+
+
+## Files for this Presentation
+
+::: {style="font-size: 0.75em"}
+
+This presentation can be found on our UCLA OARC's github repo
+
+<https://github.com/ucla-oarc-hpc/WS_BigDataOnHPC>
+
+View slides:
+
+-   PDF format: 
+    - BigDataOnHPC.pdf
+  
+-   html format: 
+    - <https://ucla-oarc-hpc.github.io/WS_BigDataOnHPC>
+
+::: callout-note
+This presentation was build with [Quarto](https://quarto.org/) and
+RStudio.
+
+-   Quarto file: `BigDataOnHPC.qmd`
+:::
+
+::: 
+
+## What is Big Data?
+
+::: {style="font-size: 0.85em"}
+
+The term **Big Data** refers when data sets, data processing, data modeling, and other data science tasks become to large and complex. 
+
+:::{style="text-align: center"}
+<img src="catbigdata.png"  />
+:::
+
+Traditional techniques are not enough to solve these projects.  
+
+:::
+
+::: footer
+image source - Stable Diffusion <https://github.com/CompVis/stable-diffusion>
+:::
+
+## Is Big Data for Me?
+
+:::{.fragment style="text-align: center"}
+
+</br>
+
+If you use data, then YES!
+
+</br>
+
+Big Data can solve problems for all types of research areas.
+
+</br>
+
+Big Data is used to scale up research.
+
+:::
+
+## Big Data
+
+::: {style="font-size: 0.75em"}
+
+Problems that arise from increasing data projects
+
+::: {.fragment}
+
+- Not enough RAM memory to fit data sets
+
+:::
+
+::: {.fragment}
+
+- Data processing takes too long
+    - Typical tasks (Pandas, SQL, etc.) cannot keep up with increasing data
+
+:::
+
+::: {.fragment}
+
+- Machine Learning model size become too complex
+    - Training models may require computational extensive techniques for better accuracy
+
+:::
+
+::: {.fragment}
+
+High-Performance Computing resources can help solve Big Data challenges by providing more computing power than typical workstations. 
+
+:::
+:::
+
+## The 3 V's of Big Data
+
+::: {style="font-size: 0.75em"}
+
+Big Data can be described by 
+
+:::
+::: {.fragment style="font-size: 0.60em"}
+
+- Volume
+    - The Size of data
+    - The amount of data needs to be taken account when choices what data science methods to use. 
+
+:::
+::: {.fragment style="font-size: 0.60em"}
+
+- Velocity
+    - Speed of the Data
+    - Think about how fast (or slow) data is being transferred and processed. 
+    - Data being transfered over different servers.
+    - Performing data tasked in memory or on disk.
+
+:::
+::: {.fragment style="font-size: 0.60em"}
+
+- Variety
+    - Understanding the different types, sources, and nature of the data. Structured vs unstructured data. 
+    - Any preprocessing or data cleanup before any modeling can start.
+
+:::
+
+
+##  Other V's
+
+::: {style="font-size: 0.75em"}
+
+- Value 
+    - What is the 'worth' of information that can be extracted from the certain data.
+
+- Veracity 
+    - The reliability and overall quality of the data. Missing Values (data imputation). 
+
+- Variability 
+    - ability of data to be used in changing formats, sources, and current data science methods. Raw and unstructured data can be difficult to modulate.
+
+**Understanding you data can help you choose what Big Data techniques to run.**
+
+:::
+
+## Big Data Challenges
+
+:::: {.columns}
+
+:::{ .column style="text-align: center" }
+
+<img src="dimensions_of_scale.svg" width="100%" />
+
+:::
+::: {.column style="font-size: 0.90em"}
+
+- Scaling Data Size
+
+    - Datasets can become so large that it cannot fit into RAM
+
+- Scaling Model/Task Size
+
+    - Machine Learning (or other tasks) become complex that 1 CPU core is not adequate 
+
+:::
+::::
+
+::: footer
+image source - DASK <https://ml.dask.org/index.html>
+:::
+
+## Big Data and HPC concepts
+
+::: {style="font-size: 0.70em"}
+
+- Parallel computing
+    - Typical python/R tasks are run on 1 CPU core.
+    - Preforming tasks simultaneous typical on different CPUs to make code run faster
+    - Many packages/libraries that can run tasks over multiple CPUs
+        - Python <https://wiki.python.org/moin/ParallelProcessing>
+        - R <https://bookdown.org/rdpeng/rprogdatascience/parallel-computation.html>
+
+</br>
+
+::: {.fragment}
+
+- Cluster computing 
+    - Multiple computer resources working together
+    - HPC resources like Hoffman2 are great examples 
+        - Multiple compute nodes with access to many cores.
+
+:::
+:::
+
+## More concepts
+
+::: { style="font-size: 0.80em"}
+
+- Symmetric Multiprocessing (SMP) programming
+    - SMP sets up parallel tasks over a shared memory
+    - Typically, these tasks can ONLY but ran on a single compute node.
+    - Uses a single process over multiple threads
+
+</br>
+
+::: {.fragment}
+
+- Cluster or Distributed programming
+    - Distributes tasks over multiple processes
+    - Allow tasks to be distributed over multiple compute nodes.
+
+:::
+:::
+
+## Even more concepts
+
+::: { style="font-size: 0.80em"}
+
+- Lazy evaluation
+    - Delaying a task or expression until that resulting value is needed.
+    - You can set of functions and calculations so they can be later run in parallel.
+
+</br>
+
+::: {.fragment}
+
+- in-memory computing
+    - Performing tasks on data in the RAM (memory) of the computer
+    - Data would be computed in RAM instead of disk in order to run faster.
+
+:::
+:::
+
+## Big Data 
+
+Various frameworks, APIs, and libraries for Big Data projects
+
+![](sparklogo.png){.absolute top=200 left=0 width="350" height="200"}
+
+![](dasklogo.jpeg){.absolute top=150 right=50 width="450" height="250"}
+
+![](h2ologo.jpg){.absolute bottom=20 right=400 width="300" height="200"}
+![](vaexlogo.png){.absolute bottom=0 right=20 width="300" height="100"}
+![](rapidslogo.png){.absolute bottom=0 left=20 width="300" height="300"}
+![](hadooplogo.png){.absolute bottom=150 right=20 width="300" height="100"}
+
+# Spark
+
+![](sparklogo.png)
+
+## Spark Components
+
+![](sparkcore.png)
+
+::: { style="font-size: 0.60em"}
+
+- Spark has APIs that can work with 
+    - Python (PySpark) 
+    - R (SparkR)
+
+:::
+
+## Spark Data
+
+RDD - Resilient Distributed Dataset
+
+<img src="RDD.png" />
+
+Large Datasets can be spread over multiple compute nodes
+
+## Data Persistence
+
+Spark supports different levels of persistence
+
+::: { style="font-size: 0.65em"}
+
+- MEMORY_ONLY
+    - All RDD data is in-memory
+       - Need enough RAM to fit data
+    - Highest RAM usage
+    - Fastest CPU time
+    
+- MEMORY_AND_DISK
+    - RDD data is stored in memory and disk
+    - RDD data is moved in memory when needed
+    
+- DISK_ONLY
+    - RDD data is stored only on Disk
+    - Low RAM usage
+    - High CPU time
+
+:::
+
+## Spark DataFrames
+
+Along with RDDs, Spark also has a API DataFrame (Pandas-like) 
+
+</br>
+
+This is a SQL-like library that can collect data with named columns
+
+</br>
+
+Great for structured/semi-structured data
+
+## Spark Session
+
+::: { style="font-size: 0.80em"}
+
+The `SparkSession` is the entry point for Spark
+
+- Underlying Spark functionality
+- Crates the main Spark driver
+- Used to create DataFrames and SQL-like tasks
+
+```{.python}
+spark = SparkSession.builder \
+          .appName("MyPySpark") \
+          .config("spark.driver.memory", "15g") \
+          .getOrCreate()
+```
+
+
+The `SparkContext` is the entry point for RDD
+
+- Created with the `spark` object from `SparkSession.builder`
+
+```{.python}
+sc = spark.sparkContext
+```
+
+:::
+
+## Installing PySpark
+
+::: {style="font-size: 0.80em"}
+
+Easiest way to install PySpark is by anaconda3. 
+
+This is great when running PySpark on a single compute node.
+
+```{.bash}
+module load anaconda3/2022.05
+conda create -n mypyspark openjdk pyspark python=3.9 \
+                          pyspark=3.3.0 py4j jupyterlab findspark \
+                          h5py pytables pandas \
+                          -c conda-forge -y
+conda activate mypyspark
+pip install ipykernel
+ipython kernel install --user --name=mypyspark
+```
+
+::: {.fragment}
+
+This will create a conda env named, mypyspark, with access to Jupyter
+
+This conda env will have both Spark and PySpark installed
+
+:::{.callout-note}
+
+Information on using Anaconda can be found from a previous workshop
+
+<https://github.com/ucla-oarc-hpc/H2HH_anaconda>
+
+:::
+:::
+:::
+
+## PySpark: Basic operations
+
+::: {style="font-size: 0.80em"}
+
+Lets go over basic PySpark functions
+
+- `spark-ex1` from github repo
+
+Make sure you download this Workshop on github in your Hoffman2 scratch directory
+
+```{.bash}
+cd $SCRATCH
+git clone https://github.com/ucla-oarc-hpc/WS_BigDataOnHPC
+cd WS_BigDataOnHPC
+cd spark-ex1
+```
+
+- Jupyter Notebook: `Spark_basics.ipynb`
+
+::: {.fragment}
+
+In this example, we will use data from [Project Gutenberg](https://www.gutenberg.org/)
+
+We will download "The Hound of the Baskervilles, by Arthur Conan Doyle
+
+```{.bash}
+wget https://www.gutenberg.org/files/3070/3070.txt
+```
+
+:::
+:::
+
+## PySpark: Basic operations: Staring the notebook
+
+::: {style="font-size: 0.65em"}
+
+We will use the `h2jupynb` script to start Jupyter on Hoffman2
+
+You will run this on your LOCAL computer.
+
+```{.bash}
+wget https://raw.githubusercontent.com/rdauria/jupyter-notebook/main/h2jupynb
+chmod +x h2jupynb
+
+#Replace 'joebruin' with you user name for Hoffman2
+#You may need to enter your Hoffman2 password twice 
+
+python3 ./h2jupynb -u joebruin -t 5 -m 10 -e 2 -s 36 -a intel-gold\\* \
+                    -x yes -d /SCRATCH/PATH/WS_BigDataOnHPC
+```
+
+:::{.callout-note}
+
+The `-d` option in the `python3 ./h2jupynb` will need to have the `$SCRATCH/WS_BigDataOnHPC` full PATH directory
+:::
+
+This will start a Jupyter session on Hoffman2 with ONE entire intel-gold compute node (36 cores)
+
+More information on the `h2jupynb` can be found on the [Hoffman2 website](<https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab)
+
+:::
+
+## PySpark: Machine Learning
+
+::: {style="font-size: 0.85em"}
+
+This example will use Spark's Machine Learning library (MLlib)
+
+We will use data from the [Million song subset](http://millionsongdataset.com/)
+
+This subset has ~500,000 songs with:
+
+- Year of the song
+- 90 features relating to the timbre average and covariance of the song 
+
+::: {.fragment}
+
+Download the dataset
+
+```{.bash}
+cd $SCRATCH/WS_BigDataOnHPC
+cd spark-ex2
+wget https://archive.ics.uci.edu/ml/machine-learning-databases/00203/YearPredictionMSD.txt.zip
+unzip YearPredictionMSD.txt.zip
+```
+
+:::
+
+::: {.fragment}
+
+We will use multiple nodes to run Spark
+
+:::
+:::
+
+## PySpark: Multi-node setup
+
+::: {style="font-size: 0.80em"}
+
+In the previous `Basic operations` example, we used pyspark with 1 (36-core) compute node. 
+
+- We will run PySpark over multiple nodes. 
+
+- This will:
+    - increase the number of cores and 
+    - increase the availabe RAM to fit a large dataset
+
+To do this, we will NOT use the Spark installation from our conda install, but use spark from a build that will will download from the spark website.
+
+```{.bash}
+mkdir -pv $SCRATCH/WS_BigDataOnHPC/apps/spark
+cd $SCRATCH/WS_BigDataOnHPC/apps/spark
+
+wget https://dlcdn.apache.org/spark/spark-3.3.0/spark-3.3.0-bin-hadoop3.tgz
+tar -vxf spark-3.3.0-bin-hadoop3.tgz
+```
+
+:::{.callout-note}
+
+Though we will not use the Spark from conda, we will still use the PySpark package that was install with conda. The Spark and PySpark packages will need to be the same version (3.3.0 in this example)
+
+:::
+:::
+
+
+## PySpark: Multi-node setup - Starting the notebook
+
+::: {style="font-size: 0.75em"}
+
+Since we are using our Spark build that we just downloaded, we will start spark and submit it as a job, then connect to jupyter.
+
+- Example: `spark-ex2`
+    - Job script `spark-multi-jupyter.job`  
+    - Starts Spark and a Jupyter session for us to connect.
+    - We start this with the line `$SPARK_HOME/bin/pyspark`
+
+In this example, we will use 3 compute nodes in total.
+
+- One compute node will be the master that will run the Spark driver.
+- The other two will be workers that will run the tasks
+
+:::{.callout-tip}
+
+For large data jobs, I like to have the Spark driver to be separate from the workers.
+
+Large data jobs may require the Spark driver to have a heavy CPU load and memory.
+
+:::
+:::
+
+## PySpark: Multi-node setup - Starting the notebook
+
+::: {style="font-size: 0.75em"}
+
+- Submitting the Job
+
+```{.bash}
+qsub spark-multi-jupyter.job
+```
+
+- Once the job starts, we will connect to this Jupyter session
+
+```{.bash}
+# Replace NODENAME with the name of the node
+# Replace joebruin with you Hoffman2 user name
+ssh -L 8888:NODENAME:8888 joebruin@hoffman2.idre.ucla.edu
+```
+
+</br>
+
+- This will create a SSH tunnel to the compute node so we can open Jupyter at `http://localhost:8888`
+
+- Then we can open the notebook named `spark-ML.ipynb`
+
+:::
+
+## Spark dashboard
+
+::: {style="font-size: 0.85em"}
+
+Spark has a visual dashboard that can view the tasks in real-time
+
+- By default, Spark will run this dashboard on port 4040
+
+- Create a ssh tunnel to the compute node to view the dashboard on your local machine
+
+</br>
+
+```{.bash}
+ssh -L 4040:NODENAME:4040 joebruin@hoffman2.idre.ucla.edu
+```
+
+You will need to replace NODENAME with the compute node that has your Spark job
+
+:::
+
+## Spark batch job
+
+You can run Spark has a batch job to run non-interactively.
+
+- We will use the command `pyspark` located at:
+    - `$SPARK_HOME/bin/spark-submit`
+
+</br>
+
+```{.bash}
+qsub pyspark-multi-batch.job
+```
+
+## Spark Bonus Example 
+
+I do have another Machine Learning example for Spark that I may not have time to go over in this workshop
+
+In this example, will train a Machine Learning model using data from [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/)
+
+- Inside of `spark-bonus`
+    - Jupyter notebook: `ML-bonus.ipynb`
+    
+- Download the dataset
+
+```{.bash}
+cd $SCRATCH/WS_BigDataOnHPC
+cd spark-ex2
+wget https://raw.githubusercontent.com/apache/spark/master/data/mllib/sample_libsvm_data.txt
+```
+
+# Dask
+
+![](dasklogo.jpeg)
+
+## Intro to Dask
+
+- Dask is a parallel computing library for Python
+
+- Dask uses multiple cores to run tasks
+
+- Can use GPUs to speed up tasks
+
+## Dask Array
+
+::: { style="font-size: 0.75em"}
+
+Dask has an Arrays API created from NumPy-like chunks
+
+:::
+
+:::: {.columns}
+
+::: { .column width="40%"}
+
+::: {style="text-align: center" .fragment}
+
+::: { style="font-size: 0.80em"}
+
+</br>
+
+</br>
+
+
+Typically Numpy code
+
+```{.python}
+import numpy as np
+
+numpy_array = np.ones((100))
+
+print(np.average(numpy_array))
+
+```
+ 
+:::
+ 
+:::
+
+:::
+
+::: { .column width="60%" }
+
+::: {style="text-align: center" .fragment}
+
+::: { style="font-size: 0.80em"}
+
+![](daskarray.svg)
+
+Dask code
+
+```{.python}
+import dask.array as da
+
+dask_array = np.ones((100), chunks=(10))
+
+print(da.average(dask_array).compute())
+```
+
+:::
+
+:::
+
+:::
+
+::::
+
+::: {.fragment style="font-size: 0.60em"}
+
+- Dask Arrays can process chuck over multiple cores. 
+
+- Great for larger than memory Arrays. Chunks are compute in memory
+
+- Dask Arrays have most of all methods and funtions as Numpy objects
+
+:::
+
+
+::: {.footer}
+
+Image source - https://docs.dask.org/en/stable/
+:::
+
+## Dask DataFrames
+
+Dask DataFrames are Pandas-like objects
+
+:::: {.columns}
+
+::: { .column width="40%" }
+
+![](daskdataframe.svg)
+:::
+
+::: { .column width="60%" }
+
+</br>
+
+- Dask DataFrames are composed of Pandas-like "chunks"
+
+</br>
+
+- Can lazily read data files 
+    - CSV, hdf5, etc.
+
+:::
+
+::::
+
+## Dask installation
+
+::: { style="font-size: 0.90m"}
+
+```{.bash}
+conda create -n mydask python pandas jupyterlab  joblib \
+                       dask dask-ml nodejs graphviz python-graphviz 
+                       -c conda-forge -y
+conda activate mydask
+pip install ipykernel
+ipython kernel install --user --name=mydask
+```
+
+This will create a conda env, mydask, that will have
+
+- Dask
+- Dask-ml (Machine Learning)
+- Jupyter
+- scikit-learn/joblib
+
+:::
+
+## Dask: Basic operations
+
+::: {style="font-size: 0.75em"}
+
+We will use the `h2jupynb` script to start Jupyter on Hoffman2
+
+You will run this on your LOCAL computer.
+
+```{.bash}
+python3 ./h2jupynb -u joebruin -t 5 -m 10 -e 2 -s 36 -a intel-gold\\* -x yes \
+                   -d /SCRATCH/PATH/WS_BigDataOnHPC
+```
+
+Replace `joebruin` with your Hoffman2 user account.
+
+Replace `/SCRATCH/PATH/WS_BigDataOnHPC` with the full PATH name of the workshop on Hoffman2
+
+- Let's go to `dask-ex1`
+    - Jupyter notebook `dask_basic.ipynb` 
+
+:::
+
+## Dask: Machine Learning
+
+Dask has a `Dask-ML` library with scalable Machine Learning methods
+
+There is also integration with:
+
+- Scikit-Learn and Joblib
+- XGBoost
+- PyTorch
+- Tensorflow and Keras
+
+## Dask ML Example
+
+::: {style="font-size: 0.75em"}
+
+This example will use Scikit-Learn with Dask
+
+We will use data from the Million song subset
+
+- Download the dataset
+
+```{.bash}
+cd $SCRATCH/WS_BigDataOnHPC
+cd dask-ex2
+wget https://archive.ics.uci.edu/ml/machine-learning-databases/00203/YearPredictionMSD.txt.zip
+unzip YearPredictionMSD.txt.zip
+```
+
+- Start Jupyter notebook
+    - Replace `joebruin` with your Hoffman2 user account
+    - Replace `/SCRATCH/PATH/WS_BigDataOnHPC` with the full PATH name of the workshop on Hoffman2
+
+```{.bash}
+python3 ./h2jupynb -u joebruin -t 5 -m 10 -e 2 -s 36 -a intel-gold\\* -x yes -d /SCRATCH/PATH/WS_BigDataOnHPC
+```
+
+- Jupyter Notebook: `MSD-dask.ipynb`
+
+:::
+
+## Dask dashboard
+
+::: {style="font-size: 0.80em"}
+
+Dask has a visual dashboard that can view the tasks in real-time
+
+- By default, Dask will run this dashboard on port 8787
+
+</br>
+
+- Create a ssh tunnel to the compute node to view the dashboard on your local machine
+
+```{.bash}
+ssh -L 8787:NODENAME:8787 joebruin@hoffman2.idre.ucla.edu
+```
+
+You will need to replace NODENAME with the compute node that has your Dask job
+
+:::
+
+# Wrap-up
+
+## Final thoughts
+
+::: {style="font-size: 0.80em"}
+
+- This is a taste of what Big Data can do. 
+
+    - Too much to talk about in a hour
+
+</br>
+
+- Big Data is for EVERYONE!!!
+    - Big Data can scale up your research
+
+- Think about how your data is being computed
+    - How is your data stored
+    - CPU cores running your data in parallel
+    - Memory considerations
+
+Spark and Dask are just two popular frameworks for Big Data
+
+:::
+
+## Thank you!
+
+::: { style="font-size: 0.70em" }
+
+Questions? Comments?
+
+- [cpeterson\@oarc.ucla.edu](mailto:cpeterson@oarc.ucla.edu){.email}
+
+- Look at for more Hoffman2 workshops at [https://idre.ucla.edu/calendar ](https://idre.ucla.edu/calendar)
+
+![](padfoot.jpeg){width="800" height="375"}
+:::
