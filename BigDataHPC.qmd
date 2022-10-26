@@ -72,7 +72,7 @@ View slides:
     - <https://ucla-oarc-hpc.github.io/WS_BigDataOnHPC>
 
 ::: callout-note
-This presentation was build with [Quarto](https://quarto.org/) and
+This presentation was built with [Quarto](https://quarto.org/) and
 RStudio.
 
 -   Quarto file: `BigDataHPC.qmd`
@@ -84,7 +84,7 @@ RStudio.
 
 ::: {style="font-size: 0.85em"}
 
-The term **Big Data** refers when data sets, data processing, data modeling, and other data science tasks become to large and complex. 
+The term **Big Data** refers to data sets, data processing, data modeling, and other data science tasks that become too large and complex. 
 
 :::{style="text-align: center"}
 <img src="catbigdata.png"  />
@@ -137,7 +137,7 @@ Problems that arise from increasing data projects
 
 ::: {.fragment}
 
-- Machine Learning model size become too complex
+- Machine Learning models become too complex
     - Training models may require computational extensive techniques for better accuracy
 
 :::
@@ -160,16 +160,14 @@ Big Data can be described by
 
 - Volume
     - The Size of data
-    - The amount of data needs to be taken account when choices what data science methods to use. 
-
 :::
 ::: {.fragment style="font-size: 0.60em"}
 
 - Velocity
     - Speed of the Data
     - Think about how fast (or slow) data is being transferred and processed. 
-    - Data being transfered over different servers.
-    - Performing data tasked in memory or on disk.
+    - Data being transferred over different servers.
+    - Performing tasks in memory or on disk.
 
 :::
 ::: {.fragment style="font-size: 0.60em"}
@@ -194,7 +192,7 @@ Big Data can be described by
 - Variability 
     - ability of data to be used in changing formats, sources, and current data science methods. Raw and unstructured data can be difficult to modulate.
 
-**Understanding you data can help you choose what Big Data techniques to run.**
+**Understanding your data can help you choose what Big Data techniques to run.**
 
 :::
 
@@ -211,11 +209,11 @@ Big Data can be described by
 
 - Scaling Data Size
 
-    - Datasets can become so large that it cannot fit into RAM
+    - Datasets can become so large that they cannot fit into RAM
 
 - Scaling Model/Task Size
 
-    - Machine Learning (or other tasks) become complex that 1 CPU core is not adequate 
+    - Machine Learning (or other tasks) become so complex that 1 CPU core is not adequate 
 
 :::
 ::::
@@ -229,8 +227,8 @@ image source - DASK <https://ml.dask.org/index.html>
 ::: {style="font-size: 0.70em"}
 
 - Parallel computing
-    - Typical python/R tasks are run on 1 CPU core.
-    - Preforming tasks simultaneous typical on different CPUs to make code run faster
+    - Typical python/R tasks are run on 1 CPU core
+    - Performing tasks simultaneous over multiple CPUs can make code run faster
     - Many packages/libraries that can run tasks over multiple CPUs
         - Python <https://wiki.python.org/moin/ParallelProcessing>
         - R <https://bookdown.org/rdpeng/rprogdatascience/parallel-computation.html>
@@ -253,7 +251,7 @@ image source - DASK <https://ml.dask.org/index.html>
 
 - Symmetric Multiprocessing (SMP) programming
     - SMP sets up parallel tasks over a shared memory
-    - Typically, these tasks can ONLY but ran on a single compute node.
+    - Typically, these tasks can ONLY be ran on a single compute node
     - Uses a single process over multiple threads
 
 </br>
@@ -262,7 +260,7 @@ image source - DASK <https://ml.dask.org/index.html>
 
 - Cluster or Distributed programming
     - Distributes tasks over multiple processes
-    - Allow tasks to be distributed over multiple compute nodes.
+    - Allows tasks to be distributed over multiple compute nodes
 
 :::
 :::
@@ -273,7 +271,7 @@ image source - DASK <https://ml.dask.org/index.html>
 
 - Lazy evaluation
     - Delaying a task or expression until that resulting value is needed.
-    - You can set of functions and calculations so they can be later run in parallel.
+    - You can setup functions and calculations so they can be later run in parallel
 
 </br>
 
@@ -281,7 +279,7 @@ image source - DASK <https://ml.dask.org/index.html>
 
 - in-memory computing
     - Performing tasks on data in the RAM (memory) of the computer
-    - Data would be computed in RAM instead of disk in order to run faster.
+    - Data would be computed in RAM instead of disk in order to run faster
 
 :::
 :::
@@ -365,7 +363,7 @@ Great for structured/semi-structured data
 The `SparkSession` is the entry point for Spark
 
 - Underlying Spark functionality
-- Crates the main Spark driver
+- Creates the main Spark driver
 - Used to create DataFrames and SQL-like tasks
 
 ```{.python}
@@ -425,7 +423,7 @@ Information on using Anaconda can be found from a previous workshop
 
 ::: {style="font-size: 0.80em"}
 
-Lets go over basic PySpark functions
+Let's go over basic PySpark functions
 
 - `spark-ex1` from github repo
 
@@ -444,7 +442,7 @@ cd spark-ex1
 
 In this example, we will use data from [Project Gutenberg](https://www.gutenberg.org/)
 
-We will download "The Hound of the Baskervilles, by Arthur Conan Doyle
+We will download "The Hound of the Baskervilles", by Arthur Conan Doyle
 
 ```{.bash}
 wget https://www.gutenberg.org/files/3070/3070.txt
@@ -453,7 +451,7 @@ wget https://www.gutenberg.org/files/3070/3070.txt
 :::
 :::
 
-## PySpark: Basic operations: Staring the notebook
+## PySpark: Basic operations: Starting the notebook
 
 ::: {style="font-size: 0.65em"}
 
@@ -525,10 +523,10 @@ In the previous `Basic operations` example, we used pyspark with 1 (36-core) com
 - We will run PySpark over multiple nodes. 
 
 - This will:
-    - increase the number of cores and 
-    - increase the availabe RAM to fit a large dataset
+    - increase the number of cores  
+    - increase the available RAM to fit a large dataset
 
-To do this, we will NOT use the Spark installation from our conda install, but use spark from a build that will will download from the spark website.
+To do this, we will NOT use the Spark installation from our conda install, but use spark from a build that we will download from the spark website.
 
 ```{.bash}
 mkdir -pv $SCRATCH/WS_BigDataOnHPC/apps/spark
@@ -573,7 +571,7 @@ Large data jobs may require the Spark driver to have a heavy CPU load and memory
 
 ## PySpark: Multi-node setup - Starting the notebook
 
-::: {style="font-size: 0.75em"}
+::: {style="font-size: 0.70em"}
 
 - Submitting the Job
 
@@ -582,19 +580,20 @@ qsub pyspark-multi-jupyter.job
 ```
 
 - Once the job starts, we will connect to this Jupyter session
+    - The `spark-test.JOBID` file will display the MASTER node name
+    - This master node will have the Spark driver and Jupyter process
+
+Run this `ssh -L` command on your LOCAL computer
 
 ```{.bash}
-# Replace NODENAME with the name of the node
+# Replace NODENAME with the name of the MASTER node
 # Replace joebruin with you Hoffman2 user name
 ssh -L 8888:NODENAME:8888 joebruin@hoffman2.idre.ucla.edu
 ```
 
-</br>
+- This will create a SSH tunnel to the master compute node so we can open Jupyter at `http://localhost:8888`
 
-- This will create a SSH tunnel to the compute node so we can open Jupyter at `http://localhost:8888`
-
-- Then we can open the notebook named `spark-ML.ipynb`
-
+- Then we can open the notebook named `MSD.ipynb`
 
 :::
 
@@ -614,15 +613,15 @@ Spark has a visual dashboard that can view the tasks in real-time
 ssh -L 4040:NODENAME:4040 joebruin@hoffman2.idre.ucla.edu
 ```
 
-You will need to replace NODENAME with the compute node that has your Spark job
+You will need to replace NODENAME with the master compute node that has your Spark job
 
 :::
 
 ## Spark batch job
 
-You can run Spark has a batch job to run non-interactively.
+You can run Spark as a batch job to run non-interactively.
 
-- We will use the command `pyspark` located at:
+- We will use the command `spark-submit` to start the pyspark calucation located at:
     - `$SPARK_HOME/bin/spark-submit`
 
 </br>
@@ -633,9 +632,9 @@ qsub pyspark-multi-batch.job
 
 ## Spark Bonus Example 
 
-I do have another Machine Learning example for Spark that I may not have time to go over in this workshop
+I have another Machine Learning example for Spark that I may not have time to go over in this workshop.
 
-In this example, will train a Machine Learning model using data from [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/)
+In this example, we will train a Machine Learning model using data from [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/)
 
 - Inside of `spark-bonus`
     - Jupyter notebook: `ML-bonus.ipynb`
@@ -659,6 +658,9 @@ wget https://raw.githubusercontent.com/apache/spark/master/data/mllib/sample_lib
 - Dask uses multiple cores to run tasks
 
 - Can use GPUs to speed up tasks
+
+- Very minimal changes to Python code is required for Dask
+    - Dask Arrays and Dataframes are similar to Numpy and Pandas
 
 ## Dask Array
 
@@ -728,9 +730,9 @@ print(da.average(dask_array).compute())
 
 - Dask Arrays can process chuck over multiple cores. 
 
-- Great for larger than memory Arrays. Chunks are compute in memory
+- Great for larger than memory arrays. Chunks are compute in memory
 
-- Dask Arrays have most of all methods and funtions as Numpy objects
+- Dask Arrays have similar functions and methods as Numpy objects
 
 :::
 
@@ -738,6 +740,7 @@ print(da.average(dask_array).compute())
 ::: {.footer}
 
 Image source - https://docs.dask.org/en/stable/
+
 :::
 
 ## Dask DataFrames
@@ -765,6 +768,13 @@ Dask DataFrames are Pandas-like objects
 :::
 
 ::::
+
+::: {.footer}
+
+Image source - https://docs.dask.org/en/stable/
+
+:::
+
 
 ## Dask installation
 
@@ -904,5 +914,9 @@ Questions? Comments?
 
 - Look at for more Hoffman2 workshops at [https://idre.ucla.edu/calendar ](https://idre.ucla.edu/calendar)
 
-![](padfoot.jpeg){width="800" height="375"}
+:::{ style="text-align: center" }
+
+<img src="padfoot.jpeg"/ width="50%" height="50%">
+
+:::
 :::

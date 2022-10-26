@@ -11,7 +11,7 @@ I would recommend to clone this in your `$SCRATCH` directory on Hoffman2.
 First, login to Hoffman2
 
 ```{.bash}
-ssh joebruin hoffman2.idre.ucla.edu 
+ssh joebruin@hoffman2.idre.ucla.edu 
 ```
 
 Clone the repo in your `$SCRATCH` directory
