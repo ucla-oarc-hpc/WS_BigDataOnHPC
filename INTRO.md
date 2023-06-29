@@ -29,33 +29,6 @@ You will have this repo located at `$SCRATCH/WS_BigDataOnHPC`
 echo $SCRATCH/WS_BigDataOnHPC
 ```
 
-## Setup for running Jupyter
-
-We will use Jupyter on Hoffman2. We have a easy to use script `h2jupynb` to start Jupyter
-
-Make sure you have python3 on your LOCAL computer to run `h2jupynb`
-
-The following code will need to run ran on your LOCAL computer.
-
-```{.bash}
-wget https://raw.githubusercontent.com/rdauria/jupyter-notebook/main/h2jupynb
-chmod +x h2jupynb
-```
-
-To start Jupyter, you will run
-
-```{.bash}
-python3 ./h2jupynb -u joebruin -t 5 -m 10 -e 2 -s 1 -a intel-gold\\* -x yes -d /SCRATCH/PATH/WS_BigDataOnHPC
-```
-
-Replace `joebruin` with your Hoffman2 user account.
-
-Replace `/SCRATCH/PATH/WS_BigDataOnHPC` with the full PATH name of the workshop on Hoffman2
-
-More information on running Jupyter can be found on the Hoffman2 webpage.
-
-<https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab>
-
 ## Install PySpark
 
 We will use Spark and the python API, PySpark, in this workshop and install it with Anaconda on Hoffman2. 
@@ -63,7 +36,8 @@ We will use Spark and the python API, PySpark, in this workshop and install it w
 You may want to install it before the workshop.
 
 ```{.bash}
-module load anaconda3/2022.05
+qrsh -l h_data=10G
+module load anaconda3
 conda create -n mypyspark openjdk pyspark python=3.9 \
                           pyspark=3.3.0 py4j jupyterlab findspark \
                           h5py pytables pandas \
@@ -87,7 +61,7 @@ Although Spark was installed along PySpark with Anaconda, we will use an example
 mkdir -pv $SCRATCH/WS_BigDataOnHPC/apps/spark
 cd $SCRATCH/WS_BigDataOnHPC/apps/spark
 
-wget https://dlcdn.apache.org/spark/spark-3.3.0/spark-3.3.0-bin-hadoop3.tgz
+wget https://archive.apache.org/dist/spark/spark-3.3.0/spark-3.3.0-bin-hadoop3.tgz
 tar -vxf spark-3.3.0-bin-hadoop3.tgz
 ```
 
@@ -96,7 +70,9 @@ tar -vxf spark-3.3.0-bin-hadoop3.tgz
 We will install Dask using Anaconda
 
 ```{.bash}
-conda create -n mydask python pandas jupyterlab  joblib \
+qrsh -l h_data=10G
+module load anaconda3
+conda create -n mydask python pandas jupyterlab  joblib seaborn \
                        dask dask-ml nodejs graphviz python-graphviz \
                        -c conda-forge -y
 conda activate mydask
@@ -139,3 +115,29 @@ cd $SCRATCH/WS_BigDataOnHPC
 cd spark-bonus
 wget https://raw.githubusercontent.com/apache/spark/master/data/mllib/sample_libsvm_data.txt
 ``` 
+## Setup for running Jupyter
+
+We will use Jupyter on Hoffman2. We have a easy to use script `h2jupynb` to start Jupyter
+
+Make sure you have python3 on your LOCAL computer to run `h2jupynb`
+
+The following code will need to run ran on your LOCAL computer.
+
+```{.bash}
+wget https://raw.githubusercontent.com/rdauria/jupyter-notebook/main/h2jupynb
+chmod +x h2jupynb
+```
+
+To start Jupyter, you will run
+
+```{.bash}
+python3 ./h2jupynb -u joebruin -t 5 -m 10 -e 2 -s 1 -a intel-gold\\* -x yes -d /SCRATCH/PATH/WS_BigDataOnHPC
+```
+
+Replace `joebruin` with your Hoffman2 user account.
+
+Replace `/SCRATCH/PATH/WS_BigDataOnHPC` with the full PATH name of the workshop on Hoffman2
+
+More information on running Jupyter can be found on the Hoffman2 webpage.
+
+<https://www.hoffman2.idre.ucla.edu/Using-H2/Connecting/Connecting.html#connecting-via-jupyter-notebook-lab>
