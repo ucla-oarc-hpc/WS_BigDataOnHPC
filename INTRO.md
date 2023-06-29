@@ -1,7 +1,6 @@
 # Hoffman2 Big Data Workshop
 
 To follow along the workshop, you may want to setup your environment beforehand. 
-
 ## Clone this GitHub Repo
 
 You will need to clone this repo to run these examples.
